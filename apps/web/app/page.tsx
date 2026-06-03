@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 import GetPosts from '@/services/postsServices'
-import { Product } from './types/products'
+import { Product } from '../app/types/products'
 
 export default async function Home() {
   const products = await GetPosts()

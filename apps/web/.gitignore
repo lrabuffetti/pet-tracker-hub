@@ -1,0 +1,115 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# nativeapp
+# OSX (handled globally by .DS_Store)
+
+# Xcode
+/nativeapp/**/build/
+/nativeapp/**/*.pbxuser
+!/nativeapp/**/default.pbxuser
+/nativeapp/**/*.mode1v3
+!/nativeapp/**/default.mode1v3
+/nativeapp/**/*.mode2v3
+!/nativeapp/**/default.mode2v3
+/nativeapp/**/*.perspectivev3
+!/nativeapp/**/default.perspectivev3
+/nativeapp/**/xcuserdata/
+/nativeapp/**/*.xccheckout
+/nativeapp/**/*.moved-aside
+/nativeapp/**/DerivedData/
+/nativeapp/**/*.hmap
+/nativeapp/**/*.ipa
+/nativeapp/**/*.xcuserstate
+/nativeapp/ios/.xcode.env.local
+
+# Android/IntelliJ
+/nativeapp/**/.gradle/
+/nativeapp/**/local.properties
+/nativeapp/**/*.iml
+/nativeapp/**/*.hprof
+/nativeapp/**/.cxx/
+/nativeapp/**/*.keystore
+!/nativeapp/**/debug.keystore
+
+# node.js
+/nativeapp/node_modules/
+
+# fastlane
+/nativeapp/**/fastlane/report.xml
+/nativeapp/**/fastlane/Preview.html
+/nativeapp/**/fastlane/screenshots/
+/nativeapp/**/fastlane/test_output/
+
+# Bundle artifact
+/nativeapp/**/*.jsbundle
+
+# Ruby / CocoaPods
+/nativeapp/ios/Pods/
+/nativeapp/vendor/bundle/
+
+# Temporary files created by Metro to check the health of the file watcher
+/nativeapp/**/.metro-health-check*
+
+# testing
+/nativeapp/coverage/
+
+# Environment variables
+/nativeapp/**/.env*
+
+# Android signing keys
+/nativeapp/**/key.properties
+
+# ESLint cache
+/nativeapp/**/.eslintcache
+
+# Watchman cache or health check
+/nativeapp/**/.watchman-cookie*
+
+.antigravitycli
