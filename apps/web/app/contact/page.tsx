@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { type FormEvent, useState } from 'react'
 
-import Button from '@/components/ui/button'
+import { Button } from '@repo/ui'
 import PlatformInfo from '@/components/shared/PlatformInfo'
 import TextInput from '@/components/ui/textInput'
 import Textarea from '@/components/ui/textArea'
@@ -13,7 +13,9 @@ const ContactPage = () => {
   const [message, setMessage] = useState('')
   const [maxMessageLength, setMaxMessageLength] = useState(255)
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
@@ -105,7 +107,7 @@ const ContactPage = () => {
               {maxMessageLength} characters remaining
             </small>
           </div>
-          <Button onClick={() => {}} isDisabled={!isFormValid} type="submit">
+          <Button disabled={!isFormValid} type="submit">
             Send
           </Button>
         </form>

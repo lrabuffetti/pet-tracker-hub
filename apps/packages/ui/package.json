@@ -13,12 +13,14 @@
   },
   "peerDependencies": {
     "react": ">=18",
-    "react-native": "*"
+    "react-native": "*",
+    "react-native-web": "*"
   },
   "devDependencies": {
     "@types/react": "^19.0.0",
     "react": "19.2.3",
     "react-native": "0.85.3",
+    "react-native-web": "^0.19.13",
     "typescript": "^5.0.0"
   }
 }
