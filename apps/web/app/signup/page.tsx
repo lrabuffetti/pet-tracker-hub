@@ -1,27 +1,26 @@
 'use client'
 
-import { useState } from 'react'
 import { Button } from '@repo/ui'
-import { REGEX_EMAIL, REGEX_PASSWORD } from '@repo/ui/validation'
+import { useSignUp } from '@repo/ui/hooks/useSignUp'
 import Link from 'next/link'
 
 const SignupPage = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-
-  const isFormValid =
-    REGEX_EMAIL.test(email) &&
-    REGEX_PASSWORD.test(password) &&
-    confirmPassword === password
-
-  const handleSignup = async () => {
-    setIsSubmitting(true)
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-    setIsSubmitting(false)
-    alert('Signup successful!')
-  }
+  const {
+    isSubmitting,
+    email,
+    password,
+    confirmPassword,
+    errorMessage,
+    successMessage,
+    isFormValid,
+    handleSignup,
+    setEmail,
+    setPassword,
+    setConfirmPassword,
+    showEmailError,
+    showPasswordError,
+    showConfirmPasswordError,
+  } = useSignUp()
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center px-6">
@@ -36,6 +35,9 @@ const SignupPage = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
+        {showEmailError && (
+          <p className="ml-3 text-base text-red-500">Invalid email</p>
+        )}
         <input
           type="password"
           className="mb-3 w-full rounded-xl border border-gray-300 p-3 focus:outline-none"
@@ -43,6 +45,9 @@ const SignupPage = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        {showPasswordError && (
+          <p className="ml-3 text-base text-red-500">Invalid password</p>
+        )}
         <input
           type="password"
           className="mb-3 w-full rounded-xl border border-gray-300 p-3 focus:outline-none"
@@ -50,6 +55,9 @@ const SignupPage = () => {
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
+        {showConfirmPasswordError && (
+          <p className="ml-3 text-base text-red-500">Passwords do not match</p>
+        )}
         <Button
           type="button"
           onClick={handleSignup}
@@ -65,6 +73,16 @@ const SignupPage = () => {
           </Link>
         </p>
       </div>
+      {successMessage && (
+        <p className="mt-6 text-center text-base text-green-500">
+          {successMessage}
+        </p>
+      )}
+      {errorMessage && (
+        <p className="mt-6 text-center text-base text-red-500">
+          {errorMessage}
+        </p>
+      )}
     </div>
   )
 }
