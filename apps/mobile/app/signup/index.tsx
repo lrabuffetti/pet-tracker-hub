@@ -1,26 +1,25 @@
-import { useState } from "react";
-import { Alert, StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 import { Button } from "@repo/ui";
-import { REGEX_EMAIL, REGEX_PASSWORD } from "@repo/ui/validation";
 import { Link } from "expo-router";
+import { useSignUp } from "@repo/ui/hooks/useSignUp";
 
 const SignUp = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-
-  const isFormValid =
-    REGEX_EMAIL.test(email) &&
-    REGEX_PASSWORD.test(password) &&
-    confirmPassword === password;
-
-  const handleSignup = async () => {
-    setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    setIsSubmitting(false);
-    Alert.alert("Signup successful!");
-  };
+  const {
+    isSubmitting,
+    email,
+    password,
+    confirmPassword,
+    errorMessage,
+    successMessage,
+    isFormValid,
+    handleSignup,
+    setEmail,
+    setPassword,
+    setConfirmPassword,
+    showEmailError,
+    showPasswordError,
+    showConfirmPasswordError,
+  } = useSignUp();
 
   return (
     <View style={styles.container}>
@@ -34,6 +33,9 @@ const SignUp = () => {
           autoCapitalize="none"
           keyboardType="email-address"
         />
+        {showEmailError && (
+          <Text style={styles.matchErrorMessage}>Invalid email</Text>
+        )}
         <TextInput
           placeholder="Password"
           value={password}
@@ -41,6 +43,9 @@ const SignUp = () => {
           style={styles.input}
           secureTextEntry
         />
+        {showPasswordError && (
+          <Text style={styles.matchErrorMessage}>Invalid password</Text>
+        )}
         <TextInput
           placeholder="Confirm Password"
           value={confirmPassword}
@@ -48,6 +53,9 @@ const SignUp = () => {
           style={styles.input}
           secureTextEntry
         />
+        {showConfirmPasswordError && (
+          <Text style={styles.matchErrorMessage}>Passwords do not match</Text>
+        )}
         <Button
           onPress={handleSignup}
           disabled={isSubmitting || !isFormValid}
@@ -63,6 +71,10 @@ const SignUp = () => {
           </Link>
         </Text>
       </View>
+      {successMessage && (
+        <Text style={styles.successMessage}>{successMessage}</Text>
+      )}
+      {errorMessage && <Text style={styles.errorMessage}>{errorMessage}</Text>}
     </View>
   );
 };
@@ -105,6 +117,23 @@ const styles = StyleSheet.create({
   signupLink: {
     color: "#2e78b7",
     textDecorationLine: "underline",
+    fontSize: 16,
+  },
+  successMessage: {
+    marginTop: 24,
+    color: "green",
+    textAlign: "center",
+    fontSize: 16,
+  },
+  matchErrorMessage: {
+    color: "red",
+    marginLeft: 12,
+    fontSize: 14,
+  },
+  errorMessage: {
+    marginTop: 24,
+    color: "red",
+    textAlign: "center",
     fontSize: 16,
   },
 });
