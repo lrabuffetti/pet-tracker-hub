@@ -1,3 +1,2 @@
-import { Button } from './src/button'
-
-export { Button }
+export { Button } from "./src/ui/components/button";
+export { REGEX_EMAIL, REGEX_PASSWORD } from "./src/utils/validation";
