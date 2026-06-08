@@ -7,7 +7,9 @@
   "exports": {
     ".": "./src/index.ts",
     "./validation": "./src/utils/validation.ts",
-    "./styles.css": "./src/global.css"
+    "./services/signUp": "./src/services/signUp.ts",
+    "./styles.css": "./src/global.css",
+    "./hooks/useSignUp": "./src/hooks/useSignUp.ts"
   },
   "scripts": {
     "lint": "eslint \"src/**/*.ts*\""
