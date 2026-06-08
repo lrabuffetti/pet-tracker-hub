@@ -1,31 +1,27 @@
+import { StyleSheet, Text, View, TextInput, Alert } from "react-native";
+import { Link } from "expo-router";
 import { useState } from "react";
-import { Alert, StyleSheet, Text, TextInput, View } from "react-native";
 import { Button } from "@repo/ui";
 import { REGEX_EMAIL, REGEX_PASSWORD } from "@repo/ui/validation";
-import { Link } from "expo-router";
 
-const SignUp = () => {
+export default function Login() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const isFormValid =
-    REGEX_EMAIL.test(email) &&
-    REGEX_PASSWORD.test(password) &&
-    confirmPassword === password;
+  const isFormValid = REGEX_EMAIL.test(email) && REGEX_PASSWORD.test(password);
 
-  const handleSignup = async () => {
+  const handleLogin = async () => {
     setIsSubmitting(true);
     await new Promise((resolve) => setTimeout(resolve, 2000));
     setIsSubmitting(false);
-    Alert.alert("Signup successful!");
+    Alert.alert("Login successful!");
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.form}>
-        <Text style={styles.title}>Create an account</Text>
+        <Text style={styles.title}>Login</Text>
         <TextInput
           placeholder="Email"
           value={email}
@@ -41,31 +37,24 @@ const SignUp = () => {
           style={styles.input}
           secureTextEntry
         />
-        <TextInput
-          placeholder="Confirm Password"
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-          style={styles.input}
-          secureTextEntry
-        />
         <Button
-          onPress={handleSignup}
+          onPress={handleLogin}
           disabled={isSubmitting || !isFormValid}
           className="w-full bg-indigo-600 rounded-xl py-3"
           textClassName="text-white font-bold text-lg"
         >
-          {isSubmitting ? "Signing up..." : "Sign Up"}
+          {isSubmitting ? "Logging in..." : "Login"}
         </Button>
         <Text style={styles.signupText}>
-          Already have an account?{" "}
-          <Link href="/login" style={styles.signupLink}>
-            Login
+          Don't have an account?{" "}
+          <Link href="/signup" style={styles.signupLink}>
+            Sign up
           </Link>
         </Text>
       </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -73,6 +62,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 24,
+    gap: 12,
+  },
+  form: {
+    width: "100%",
+    maxWidth: 400,
+    padding: 24,
+    borderRadius: 12,
+    backgroundColor: "#fff",
   },
   title: {
     fontSize: 24,
@@ -80,15 +77,6 @@ const styles = StyleSheet.create({
     marginBottom: 24,
     textAlign: "center",
     marginTop: 24,
-  },
-  form: {
-    width: "100%",
-    maxWidth: 360,
-    gap: 12,
-    padding: 12,
-    borderWidth: 1,
-    borderColor: "lightgray",
-    borderRadius: 12,
   },
   input: {
     borderWidth: 1,
@@ -108,5 +96,3 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-
-export default SignUp;
