@@ -9,7 +9,6 @@
     "check-types": "turbo run check-types"
   },
   "devDependencies": {
-    "nativewind": "^4.2.4",
     "prettier": "^3.7.4",
     "turbo": "^2.9.16",
     "typescript": "5.9.2"
