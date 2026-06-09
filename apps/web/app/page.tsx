@@ -1,34 +1,59 @@
+'use client'
+
+import { useState } from 'react'
+import { Button } from '@repo/ui'
+import { REGEX_EMAIL, REGEX_PASSWORD } from '@repo/ui/validation'
 import Link from 'next/link'
 
-import GetPosts from '@/services/postsServices'
-import { Product } from '../app/types/products'
+const LoginPage = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
-export default async function Home() {
-  const products = await GetPosts()
+  const isFormValid = REGEX_EMAIL.test(email) && REGEX_PASSWORD.test(password)
 
-  if (!products || products.length === 0) {
-    return (
-      <div className="flex flex-col items-center justify-between min-h-screen py-2">
-        <h1 className="text-6xl font-bold">No products found.</h1>
-      </div>
-    )
+  const handleLogin = async () => {
+    setIsSubmitting(true)
+    await new Promise((resolve) => setTimeout(resolve, 2000))
+    setIsSubmitting(false)
+    alert('Login successful!')
   }
 
   return (
-    <div className="flex flex-col items-center justify-between min-h-screen py-2">
-      <h1 className="text-6xl font-bold">Products</h1>
-      <ul className="mt-6 text-2xl">
-        {products.map((product: Product) => (
-          <li key={product.id} className="mb-4 border-b pb-2">
-            <Link
-              href={`/posts/${product.id}`}
-              className="text-blue-500 hover:underline"
-            >
-              <h4>{product.name}</h4>
-            </Link>
-          </li>
-        ))}
-      </ul>
+    <div className="flex min-h-screen flex-col items-center justify-center px-6">
+      <div className="flex w-[500px] flex-col gap-3 rounded-xl border border-gray-300 p-3">
+        <h1 className="mb-6 mt-6 text-center text-2xl font-bold">Login</h1>
+        <input
+          type="email"
+          className="mb-3 w-full rounded-xl border border-gray-300 p-3 focus:outline-none"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          className="mb-3 w-full rounded-xl border border-gray-300 p-3 focus:outline-none"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <Button
+          type="button"
+          onClick={handleLogin}
+          disabled={isSubmitting || !isFormValid}
+          className="w-full rounded-xl bg-indigo-600 py-3 text-lg font-bold text-white disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          {isSubmitting ? 'Logging in...' : 'Login'}
+        </Button>
+        <p className="mt-6 text-center text-base">
+          Don&apos;t have an account?{' '}
+          <Link href="/signup" className="text-[#2e78b7] underline">
+            Sign up
+          </Link>
+        </p>
+      </div>
     </div>
   )
 }
+
+export default LoginPage

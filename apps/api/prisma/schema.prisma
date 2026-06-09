@@ -1,0 +1,24 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model User {
+  id               String   @id @default(cuid())
+  name             String?
+  lastName         String?
+  address          String?
+  city             String?
+  state            String?
+  phoneNumber      String?
+  email            String   @unique
+  passwordHash     String
+  verificationCode String
+  codeExpiresAt    DateTime
+  emailVerified    Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}

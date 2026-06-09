@@ -6,19 +6,24 @@
   "types": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts",
-    "./styles.css": "./src/global.css"
+    "./validation": "./src/utils/validation.ts",
+    "./services/signUp": "./src/services/signUp.ts",
+    "./styles.css": "./src/global.css",
+    "./hooks/useSignUp": "./src/hooks/useSignUp.ts"
   },
   "scripts": {
     "lint": "eslint \"src/**/*.ts*\""
   },
   "peerDependencies": {
     "react": ">=18",
-    "react-native": "*"
+    "react-native": "*",
+    "react-native-web": "*"
   },
   "devDependencies": {
     "@types/react": "^19.0.0",
     "react": "19.2.3",
     "react-native": "0.85.3",
+    "react-native-web": "^0.19.13",
     "typescript": "^5.0.0"
   }
 }
