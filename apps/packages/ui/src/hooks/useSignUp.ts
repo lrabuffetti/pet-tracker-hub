@@ -1,8 +1,13 @@
 import { useState } from "react";
+import { Platform } from "react-native";
 import { REGEX_EMAIL, REGEX_PASSWORD } from "../utils/validation";
 import { signUp } from "../services/signUp";
 
-export const useSignUp = () => {
+type UseSignUpOptions = {
+  onMobileSuccessRedirect?: () => void;
+};
+
+export const useSignUp = (options?: UseSignUpOptions) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -26,15 +31,24 @@ export const useSignUp = () => {
     setIsSubmitting(true);
     setErrorMessage("");
     setSuccessMessage("");
+    let succeeded = false;
+
     try {
       const result = await signUp(email, password);
       setSuccessMessage(result.message);
+      succeeded = true;
     } catch (error) {
       setErrorMessage(
         error instanceof Error ? error.message : "Unable to sign up",
       );
     } finally {
       setIsSubmitting(false);
+
+      if (Platform.OS !== "web" && succeeded) {
+        setTimeout(() => {
+          options?.onMobileSuccessRedirect?.();
+        }, 3000);
+      }
     }
   };
 
