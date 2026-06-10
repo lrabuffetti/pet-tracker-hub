@@ -1,9 +1,11 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
-import { Button } from "@repo/ui";
-import { Link } from "expo-router";
+import { Text, View } from "react-native";
+import { Button, Input } from "@repo/ui";
+import { Link, useRouter } from "expo-router";
 import { useSignUp } from "@repo/ui/hooks/useSignUp";
+import { authScreenStyles as styles } from "@/constants/authScreenStyles";
 
 const SignUp = () => {
+  const router = useRouter();
   const {
     isSubmitting,
     email,
@@ -19,54 +21,51 @@ const SignUp = () => {
     showEmailError,
     showPasswordError,
     showConfirmPasswordError,
-  } = useSignUp();
+  } = useSignUp({
+    onMobileSuccessRedirect: () => router.push("/verification"),
+  });
 
   return (
     <View style={styles.container}>
       <View style={styles.form}>
         <Text style={styles.title}>Create an account</Text>
-        <TextInput
+        <Input
+          type="email"
           placeholder="Email"
           value={email}
           onChangeText={setEmail}
-          style={styles.input}
-          autoCapitalize="none"
-          keyboardType="email-address"
         />
         {showEmailError && (
-          <Text style={styles.matchErrorMessage}>Invalid email</Text>
+          <Text style={styles.fieldError}>Invalid email</Text>
         )}
-        <TextInput
+        <Input
+          type="password"
           placeholder="Password"
           value={password}
           onChangeText={setPassword}
-          style={styles.input}
-          secureTextEntry
         />
         {showPasswordError && (
-          <Text style={styles.matchErrorMessage}>Invalid password</Text>
+          <Text style={styles.fieldError}>Invalid password</Text>
         )}
-        <TextInput
+        <Input
+          type="password"
           placeholder="Confirm Password"
           value={confirmPassword}
           onChangeText={setConfirmPassword}
-          style={styles.input}
-          secureTextEntry
         />
         {showConfirmPasswordError && (
-          <Text style={styles.matchErrorMessage}>Passwords do not match</Text>
+          <Text style={styles.fieldError}>Passwords do not match</Text>
         )}
         <Button
+          variant="primary"
           onPress={handleSignup}
           disabled={isSubmitting || !isFormValid}
-          className="w-full bg-indigo-600 rounded-xl py-3"
-          textClassName="text-white font-bold text-lg"
         >
           {isSubmitting ? "Signing up..." : "Sign Up"}
         </Button>
-        <Text style={styles.signupText}>
+        <Text style={styles.footerText}>
           Already have an account?{" "}
-          <Link href="/login" style={styles.signupLink}>
+          <Link href="/login" style={styles.footerLink}>
             Login
           </Link>
         </Text>
@@ -78,64 +77,5 @@ const SignUp = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 24,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 24,
-    textAlign: "center",
-    marginTop: 24,
-  },
-  form: {
-    width: "100%",
-    maxWidth: 360,
-    gap: 12,
-    padding: 12,
-    borderWidth: 1,
-    borderColor: "lightgray",
-    borderRadius: 12,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "lightgray",
-    borderRadius: 12,
-    padding: 12,
-    marginBottom: 12,
-  },
-  signupText: {
-    marginTop: 24,
-    textAlign: "center",
-    fontSize: 16,
-  },
-  signupLink: {
-    color: "#2e78b7",
-    textDecorationLine: "underline",
-    fontSize: 16,
-  },
-  successMessage: {
-    marginTop: 24,
-    color: "green",
-    textAlign: "center",
-    fontSize: 16,
-  },
-  matchErrorMessage: {
-    color: "red",
-    marginLeft: 12,
-    fontSize: 14,
-  },
-  errorMessage: {
-    marginTop: 24,
-    color: "red",
-    textAlign: "center",
-    fontSize: 16,
-  },
-});
 
 export default SignUp;

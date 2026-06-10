@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from '@repo/ui'
+import { Button, Input } from '@repo/ui'
 import { useSignUp } from '@repo/ui/hooks/useSignUp'
 import Link from 'next/link'
 
@@ -28,41 +28,38 @@ const SignupPage = () => {
         <h1 className="mb-6 mt-6 text-center text-2xl font-bold">
           Create an account
         </h1>
-        <input
+        <Input
           type="email"
-          className="mb-3 w-full rounded-xl border border-gray-300 p-3 focus:outline-none"
           placeholder="Email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChangeText={setEmail}
         />
         {showEmailError && (
           <p className="ml-3 text-base text-red-500">Invalid email</p>
         )}
-        <input
+        <Input
           type="password"
-          className="mb-3 w-full rounded-xl border border-gray-300 p-3 focus:outline-none"
           placeholder="Password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChangeText={setPassword}
         />
         {showPasswordError && (
           <p className="ml-3 text-base text-red-500">Invalid password</p>
         )}
-        <input
+        <Input
           type="password"
-          className="mb-3 w-full rounded-xl border border-gray-300 p-3 focus:outline-none"
           placeholder="Confirm Password"
           value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
+          onChangeText={setConfirmPassword}
         />
         {showConfirmPasswordError && (
           <p className="ml-3 text-base text-red-500">Passwords do not match</p>
         )}
         <Button
+          variant="primary"
           type="button"
           onClick={handleSignup}
           disabled={isSubmitting || !isFormValid}
-          className="w-full rounded-xl bg-indigo-600 py-3 text-lg font-bold text-white disabled:cursor-not-allowed disabled:opacity-50"
         >
           {isSubmitting ? 'Signing up...' : 'Sign Up'}
         </Button>

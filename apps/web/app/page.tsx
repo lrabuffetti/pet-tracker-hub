@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Button } from '@repo/ui'
+import { Button, Input } from '@repo/ui'
 import { REGEX_EMAIL, REGEX_PASSWORD } from '@repo/ui/validation'
 import Link from 'next/link'
 
@@ -23,25 +23,23 @@ const LoginPage = () => {
     <div className="flex min-h-screen flex-col items-center justify-center px-6">
       <div className="flex w-[500px] flex-col gap-3 rounded-xl border border-gray-300 p-3">
         <h1 className="mb-6 mt-6 text-center text-2xl font-bold">Login</h1>
-        <input
+        <Input
           type="email"
-          className="mb-3 w-full rounded-xl border border-gray-300 p-3 focus:outline-none"
           placeholder="Email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChangeText={setEmail}
         />
-        <input
+        <Input
           type="password"
-          className="mb-3 w-full rounded-xl border border-gray-300 p-3 focus:outline-none"
           placeholder="Password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChangeText={setPassword}
         />
         <Button
+          variant="primary"
           type="button"
           onClick={handleLogin}
           disabled={isSubmitting || !isFormValid}
-          className="w-full rounded-xl bg-indigo-600 py-3 text-lg font-bold text-white disabled:cursor-not-allowed disabled:opacity-50"
         >
           {isSubmitting ? 'Logging in...' : 'Login'}
         </Button>
