@@ -1,23 +1,25 @@
-import { Text, View, Alert } from "react-native";
-import { Link } from "expo-router";
-import { useState } from "react";
+import { Text, View } from "react-native";
+import { Link, useRouter } from "expo-router";
 import { Button, Input } from "@repo/ui";
-import { REGEX_EMAIL, REGEX_PASSWORD } from "@repo/ui/validation";
+import { useLogin } from "@repo/ui/hooks/useLogin";
 import { authScreenStyles as styles } from "@/constants/authScreenStyles";
 
 export default function Login() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const isFormValid = REGEX_EMAIL.test(email) && REGEX_PASSWORD.test(password);
-
-  const handleLogin = async () => {
-    setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    setIsSubmitting(false);
-    Alert.alert("Login successful!");
-  };
+  const router = useRouter();
+  const {
+    email,
+    password,
+    isSubmitting,
+    errorMessage,
+    isFormValid,
+    showEmailError,
+    showPasswordError,
+    handleLogin,
+    setEmail,
+    setPassword,
+  } = useLogin({
+    onSuccessRedirect: () => router.replace("/dashboard"),
+  });
 
   return (
     <View style={styles.container}>
@@ -29,12 +31,18 @@ export default function Login() {
           value={email}
           onChangeText={setEmail}
         />
+        {showEmailError && (
+          <Text style={styles.fieldError}>Invalid email</Text>
+        )}
         <Input
           type="password"
           placeholder="Password"
           value={password}
           onChangeText={setPassword}
         />
+        {showPasswordError && (
+          <Text style={styles.fieldError}>Invalid password</Text>
+        )}
         <Button
           variant="primary"
           onPress={handleLogin}
@@ -49,6 +57,7 @@ export default function Login() {
           </Link>
         </Text>
       </View>
+      {errorMessage && <Text style={styles.errorMessage}>{errorMessage}</Text>}
     </View>
   );
 }

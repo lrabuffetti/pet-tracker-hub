@@ -22,7 +22,10 @@ const SignUp = () => {
     showPasswordError,
     showConfirmPasswordError,
   } = useSignUp({
-    onMobileSuccessRedirect: () => router.push("/verification"),
+    onSuccessRedirect: (signedUpEmail) =>
+      router.push(
+        `/verification?email=${encodeURIComponent(signedUpEmail)}`,
+      ),
   });
 
   return (
