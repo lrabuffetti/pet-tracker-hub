@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { Platform } from "react-native";
 import { REGEX_EMAIL, REGEX_PASSWORD } from "../utils/validation";
 import { signUp } from "../services/signUp";
 
 type UseSignUpOptions = {
-  onMobileSuccessRedirect?: () => void;
+  onSuccessRedirect?: (email: string) => void;
 };
 
 export const useSignUp = (options?: UseSignUpOptions) => {
@@ -44,9 +43,9 @@ export const useSignUp = (options?: UseSignUpOptions) => {
     } finally {
       setIsSubmitting(false);
 
-      if (Platform.OS !== "web" && succeeded) {
+      if (succeeded && options?.onSuccessRedirect) {
         setTimeout(() => {
-          options?.onMobileSuccessRedirect?.();
+          options.onSuccessRedirect?.(email);
         }, 3000);
       }
     }
