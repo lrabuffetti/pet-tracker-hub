@@ -1,47 +1,54 @@
 'use client'
 
-import { useState } from 'react'
-import { Button } from '@repo/ui'
-import { REGEX_EMAIL, REGEX_PASSWORD } from '@repo/ui/validation'
+import { Button, Input } from '@repo/ui'
+import { useLogin } from '@repo/ui/hooks/useLogin'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 const LoginPage = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-
-  const isFormValid = REGEX_EMAIL.test(email) && REGEX_PASSWORD.test(password)
-
-  const handleLogin = async () => {
-    setIsSubmitting(true)
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-    setIsSubmitting(false)
-    alert('Login successful!')
-  }
+  const router = useRouter()
+  const {
+    email,
+    password,
+    isSubmitting,
+    errorMessage,
+    isFormValid,
+    showEmailError,
+    showPasswordError,
+    handleLogin,
+    setEmail,
+    setPassword,
+  } = useLogin({
+    onSuccessRedirect: () => router.push('/dashboard'),
+  })
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center px-6">
       <div className="flex w-[500px] flex-col gap-3 rounded-xl border border-gray-300 p-3">
         <h1 className="mb-6 mt-6 text-center text-2xl font-bold">Login</h1>
-        <input
+        <Input
           type="email"
-          className="mb-3 w-full rounded-xl border border-gray-300 p-3 focus:outline-none"
           placeholder="Email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChangeText={setEmail}
         />
-        <input
+        {showEmailError && (
+          <p className="ml-3 text-base text-red-500">Invalid email</p>
+        )}
+        <Input
           type="password"
-          className="mb-3 w-full rounded-xl border border-gray-300 p-3 focus:outline-none"
           placeholder="Password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChangeText={setPassword}
         />
+        {showPasswordError && (
+          <p className="ml-3 text-base text-red-500">Invalid password</p>
+        )}
         <Button
+          variant="primary"
           type="button"
           onClick={handleLogin}
           disabled={isSubmitting || !isFormValid}
-          className="w-full rounded-xl bg-indigo-600 py-3 text-lg font-bold text-white disabled:cursor-not-allowed disabled:opacity-50"
         >
           {isSubmitting ? 'Logging in...' : 'Login'}
         </Button>
@@ -52,6 +59,9 @@ const LoginPage = () => {
           </Link>
         </p>
       </div>
+      {errorMessage && (
+        <p className="mt-6 text-center text-base text-red-500">{errorMessage}</p>
+      )}
     </div>
   )
 }
