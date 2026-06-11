@@ -45,10 +45,19 @@ export class SignUpService {
       throw new InternalServerErrorException('Unable to create account');
     }
 
-    await this.emailService.sendVerificationCode(
-      normalizedEmail,
-      verificationCode,
-    );
+    try {
+      await this.emailService.sendVerificationCode(
+        normalizedEmail,
+        verificationCode,
+      );
+    } catch {
+      await this.prisma.user.delete({
+        where: { email: normalizedEmail },
+      });
+      throw new InternalServerErrorException(
+        'Unable to send verification email',
+      );
+    }
 
     return {
       message: 'An email was sent with a verification code.',
