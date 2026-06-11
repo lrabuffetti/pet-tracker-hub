@@ -3,8 +3,10 @@
 import { Button, Input } from '@repo/ui'
 import { useSignUp } from '@repo/ui/hooks/useSignUp'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 const SignupPage = () => {
+  const router = useRouter()
   const {
     isSubmitting,
     email,
@@ -20,7 +22,12 @@ const SignupPage = () => {
     showEmailError,
     showPasswordError,
     showConfirmPasswordError,
-  } = useSignUp()
+  } = useSignUp({
+    onSuccessRedirect: (signedUpEmail) =>
+      router.push(
+        `/verification?email=${encodeURIComponent(signedUpEmail)}`,
+      ),
+  })
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center px-6">

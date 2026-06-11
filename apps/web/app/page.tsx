@@ -1,23 +1,26 @@
 'use client'
 
-import { useState } from 'react'
 import { Button, Input } from '@repo/ui'
-import { REGEX_EMAIL, REGEX_PASSWORD } from '@repo/ui/validation'
+import { useLogin } from '@repo/ui/hooks/useLogin'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 const LoginPage = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-
-  const isFormValid = REGEX_EMAIL.test(email) && REGEX_PASSWORD.test(password)
-
-  const handleLogin = async () => {
-    setIsSubmitting(true)
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-    setIsSubmitting(false)
-    alert('Login successful!')
-  }
+  const router = useRouter()
+  const {
+    email,
+    password,
+    isSubmitting,
+    errorMessage,
+    isFormValid,
+    showEmailError,
+    showPasswordError,
+    handleLogin,
+    setEmail,
+    setPassword,
+  } = useLogin({
+    onSuccessRedirect: () => router.push('/dashboard'),
+  })
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center px-6">
@@ -29,12 +32,18 @@ const LoginPage = () => {
           value={email}
           onChangeText={setEmail}
         />
+        {showEmailError && (
+          <p className="ml-3 text-base text-red-500">Invalid email</p>
+        )}
         <Input
           type="password"
           placeholder="Password"
           value={password}
           onChangeText={setPassword}
         />
+        {showPasswordError && (
+          <p className="ml-3 text-base text-red-500">Invalid password</p>
+        )}
         <Button
           variant="primary"
           type="button"
@@ -50,6 +59,9 @@ const LoginPage = () => {
           </Link>
         </p>
       </div>
+      {errorMessage && (
+        <p className="mt-6 text-center text-base text-red-500">{errorMessage}</p>
+      )}
     </div>
   )
 }
