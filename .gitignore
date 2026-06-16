@@ -34,6 +34,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Cursor
+.cursor/
+
 # Misc
 .DS_Store
 *.pem
