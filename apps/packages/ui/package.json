@@ -10,10 +10,15 @@
     "./services/signUp": "./src/services/signUp.ts",
     "./services/verifyEmail": "./src/services/verifyEmail.ts",
     "./services/login": "./src/services/login.ts",
+    "./services/auth": "./src/services/auth.ts",
     "./styles.css": "./src/global.css",
     "./hooks/useSignUp": "./src/hooks/useSignUp.ts",
     "./hooks/useVerify": "./src/hooks/useVerify.ts",
-    "./hooks/useLogin": "./src/hooks/useLogin.ts"
+    "./hooks/useLogin": "./src/hooks/useLogin.ts",
+    "./hooks/useAuth": "./src/hooks/useAuth.ts",
+    "./context/AuthContext": "./src/context/AuthContext.tsx",
+    "./components/RequireAuth": "./src/components/RequireAuth.tsx",
+    "./types/auth": "./src/types/auth.ts"
   },
   "scripts": {
     "lint": "eslint \"src/**/*.ts*\""

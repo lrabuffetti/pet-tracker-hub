@@ -3,12 +3,16 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+import { AuthService } from '../auth/auth.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class LoginService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly authService: AuthService,
+  ) {}
 
   async login({ email, password }: LoginDto) {
     const normalizedEmail = email.trim().toLowerCase();
@@ -33,6 +37,6 @@ export class LoginService {
       );
     }
 
-    return { message: 'Login successful' };
+    return this.authService.createSession(user.id);
   }
 }

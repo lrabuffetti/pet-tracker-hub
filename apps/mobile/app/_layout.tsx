@@ -7,6 +7,9 @@ import "react-native-reanimated";
 import "../global.css";
 
 import { useColorScheme } from "@/components/useColorScheme";
+import { AuthProvider } from "@repo/ui/context/AuthContext";
+import { mobileTokenStorage } from "@/lib/tokenStorage";
+import { getApiUrl } from "@/config/api";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -47,14 +50,16 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="index" />
-        <Stack.Screen name="login" />
-        <Stack.Screen name="signup" />
-        <Stack.Screen name="verification" />
-        <Stack.Screen name="dashboard" />
-      </Stack>
-    </ThemeProvider>
+    <AuthProvider tokenStorage={mobileTokenStorage} apiBaseUrl={getApiUrl()}>
+      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="index" />
+          <Stack.Screen name="login" />
+          <Stack.Screen name="signup" />
+          <Stack.Screen name="verification" />
+          <Stack.Screen name="dashboard" />
+        </Stack>
+      </ThemeProvider>
+    </AuthProvider>
   );
 }
