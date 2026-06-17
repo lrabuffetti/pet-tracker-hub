@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { login } from "../services/login";
+import { useAuth } from "./useAuth";
 import { REGEX_EMAIL, REGEX_PASSWORD } from "../utils/validation";
 
 type UseLoginOptions = {
@@ -7,6 +7,7 @@ type UseLoginOptions = {
 };
 
 export const useLogin = (options?: UseLoginOptions) => {
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
