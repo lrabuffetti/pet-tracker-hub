@@ -41,9 +41,11 @@ function getUploadImagePatterns(): NonNullable<
 }
 
 const nextConfig: NextConfig = {
+  output: 'export',
   transpilePackages: ['@repo/ui'],
   turbopack: {},
   images: {
+    unoptimized: true,
     // Next.js 16 blocks loopback/private IPs in the image optimizer by default.
     dangerouslyAllowLocalIP: process.env.NODE_ENV === 'development',
     remotePatterns: getUploadImagePatterns(),

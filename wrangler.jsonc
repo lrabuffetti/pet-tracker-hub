@@ -1,0 +1,8 @@
+{
+  "name": "pet-tracker-hub",
+  "compatibility_date": "2026-06-23",
+  "assets": {
+    "directory": "./apps/web/out",
+    "not_found_handling": "single-page-application"
+  }
+}

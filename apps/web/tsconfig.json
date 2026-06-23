@@ -43,6 +43,7 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts",
+    "../packages/ui/types/**/*.d.ts",
     "../pet-tracker-hub/apps/web/next.config.ts"
   ],
   "exclude": [
