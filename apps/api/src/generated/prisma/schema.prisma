@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+enum PetType {
+  DOG
+  CAT
+  OTHER
+}
+
+enum PetGender {
+  MALE
+  FEMALE
+}
+
+enum MedicalEntryType {
+  VACCINE
+  DEWORMING
+  CHECKUP
+  SURGERY
+  MEDICATION
+}
+
+model User {
+  id               String    @id @default(cuid())
+  name             String?
+  lastName         String?
+  address          String?
+  city             String?
+  state            String?
+  phoneNumber      String?
+  email            String    @unique
+  passwordHash     String
+  verificationCode String
+  codeExpiresAt    DateTime
+  emailVerified    Boolean   @default(false)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  sessions         Session[]
+  pets             Pet[]
+}
+
+model Pet {
+  id        String     @id @default(cuid())
+  userId    String
+  name      String
+  type      PetType
+  breed     String?
+  birthdate DateTime?
+  weight    Float?
+  gender    PetGender?
+  avatarUrl String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  medicalRecords MedicalRecord[]
+  // tracker     Tracker?
+
+  @@index([userId])
+}
+
+model MedicalRecord {
+  id            String           @id @default(cuid())
+  petId         String
+  type          MedicalEntryType
+  title         String
+  notes         String?
+  date          DateTime
+  nextDueDate   DateTime?
+  veterinarian  String?
+  attachmentUrl String?
+  weightAtTime  Float?
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  pet Pet @relation(fields: [petId], references: [id], onDelete: Cascade)
+
+  @@index([petId])
+  @@index([nextDueDate])
+}
+
+model Session {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  refreshHash String
+  expiresAt   DateTime
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+}

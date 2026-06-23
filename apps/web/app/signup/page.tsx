@@ -24,9 +24,7 @@ const SignupPage = () => {
     showConfirmPasswordError,
   } = useSignUp({
     onSuccessRedirect: (signedUpEmail) =>
-      router.push(
-        `/verification?email=${encodeURIComponent(signedUpEmail)}`,
-      ),
+      router.push(`/verification?email=${encodeURIComponent(signedUpEmail)}`),
   })
 
   return (

@@ -1,7 +1,4 @@
-import {
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { randomBytes } from 'crypto';
@@ -13,7 +10,6 @@ import {
   RequestUser,
 } from './types/auth-user.type';
 
-const DEFAULT_ACCESS_EXPIRES_IN = '15m';
 const DEFAULT_REFRESH_EXPIRES_IN = '24h';
 
 @Injectable()
@@ -24,7 +20,8 @@ export class AuthService {
   ) {}
 
   private getRefreshExpiresMs(): number {
-    const raw = process.env.REFRESH_TOKEN_EXPIRES_IN ?? DEFAULT_REFRESH_EXPIRES_IN;
+    const raw =
+      process.env.REFRESH_TOKEN_EXPIRES_IN ?? DEFAULT_REFRESH_EXPIRES_IN;
     const match = raw.match(/^(\d+)([hm])$/);
 
     if (!match) {
