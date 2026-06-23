@@ -16,9 +16,15 @@
     "./hooks/useVerify": "./src/hooks/useVerify.ts",
     "./hooks/useLogin": "./src/hooks/useLogin.ts",
     "./hooks/useAuth": "./src/hooks/useAuth.ts",
+    "./hooks/useCreatePet": "./src/hooks/useCreatePet.ts",
+    "./hooks/useDashboard": "./src/hooks/useDashboard.ts",
+    "./utils/petAge": "./src/utils/petAge.ts",
+    "./utils/resolveUploadUrl": "./src/utils/resolveUploadUrl.ts",
     "./context/AuthContext": "./src/context/AuthContext.tsx",
+    "./context/I18nContext": "./src/i18n/I18nContext.tsx",
     "./components/RequireAuth": "./src/components/RequireAuth.tsx",
-    "./types/auth": "./src/types/auth.ts"
+    "./types/auth": "./src/types/auth.ts",
+    "./types/pet": "./src/types/pet.ts"
   },
   "scripts": {
     "lint": "eslint \"src/**/*.ts*\""
