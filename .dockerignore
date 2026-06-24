@@ -1,0 +1,14 @@
+node_modules
+.git
+.turbo
+.cursor
+**/.next
+**/out
+**/dist
+**/coverage
+**/.env
+**/.env.*
+apps/web
+apps/mobile
+apps/packages
+packages
