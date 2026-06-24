@@ -44,7 +44,7 @@ export default function AddPetScreen() {
     handleSubmit,
   } = useCreatePet({
     apiBaseUrl: getApiUrl(),
-    onSuccess: () => router.replace("/dashboard"),
+    onSuccess: () => router.replace("/(tabs)"),
   });
 
   const pickAvatar = async () => {
@@ -181,7 +181,9 @@ export default function AddPetScreen() {
 
           <Text style={styles.label}>{t("addPet.avatar")}</Text>
           <Button variant="secondary" onPress={pickAvatar}>
-            {avatarPreview ? t("addPet.avatarSelected") : t("addPet.avatarHint")}
+            {avatarPreview
+              ? t("addPet.avatarSelected")
+              : t("addPet.avatarHint")}
           </Button>
 
           {avatarPreview && (

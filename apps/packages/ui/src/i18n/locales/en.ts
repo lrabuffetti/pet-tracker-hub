@@ -31,4 +31,11 @@ export const en: Record<TranslationKey, string> = {
   "dashboard.emptyTitle": "No pets yet",
   "dashboard.emptySubtitle":
     "Add your first pet to start tracking their health.",
+  "nav.dashboard": "Dashboard",
+  "nav.map": "Map",
+  "nav.medical": "Medical history",
+  "nav.settings": "Settings",
+  "nav.logout": "Log out",
+  "nav.selectPet": "Active pet",
+  "nav.comingSoon": "Coming soon",
 };

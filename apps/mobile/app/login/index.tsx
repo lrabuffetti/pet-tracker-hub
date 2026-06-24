@@ -18,7 +18,7 @@ export default function Login() {
     setEmail,
     setPassword,
   } = useLogin({
-    onSuccessRedirect: () => router.replace("/dashboard"),
+    onSuccessRedirect: () => router.replace("/(tabs)"),
   });
 
   return (
@@ -31,9 +31,7 @@ export default function Login() {
           value={email}
           onChangeText={setEmail}
         />
-        {showEmailError && (
-          <Text style={styles.fieldError}>Invalid email</Text>
-        )}
+        {showEmailError && <Text style={styles.fieldError}>Invalid email</Text>}
         <Input
           type="password"
           placeholder="Password"

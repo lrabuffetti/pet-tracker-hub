@@ -31,4 +31,11 @@ export type TranslationKey =
   | "dashboard.yourPets"
   | "dashboard.loading"
   | "dashboard.emptyTitle"
-  | "dashboard.emptySubtitle";
+  | "dashboard.emptySubtitle"
+  | "nav.dashboard"
+  | "nav.map"
+  | "nav.medical"
+  | "nav.settings"
+  | "nav.logout"
+  | "nav.selectPet"
+  | "nav.comingSoon";

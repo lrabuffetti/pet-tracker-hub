@@ -9,8 +9,9 @@ import {
   View,
 } from "react-native";
 import { useFocusEffect, useRouter } from "expo-router";
-import { RequireAuth } from "@repo/ui/components/RequireAuth";
+import { PetSelector } from "@repo/ui/components/PetSelector";
 import { useTranslation } from "@repo/ui/context/I18nContext";
+import { usePetContext } from "@repo/ui/context/PetContext";
 import { useAuth } from "@repo/ui/hooks/useAuth";
 import { useDashboard } from "@repo/ui/hooks/useDashboard";
 import type { Pet } from "@repo/ui/types/pet";
@@ -48,14 +49,16 @@ function PetCard({
   );
 }
 
-export default function Dashboard() {
+export default function DashboardTab() {
   const router = useRouter();
   const apiBaseUrl = getApiUrl();
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const { t, locale } = useTranslation();
   const { data, isLoading, errorMessage, reload } = useDashboard({
     apiBaseUrl,
   });
+  const { pets, selectedPetId, setSelectedPetId, selectedPet } =
+    usePetContext();
 
   useFocusEffect(
     useCallback(() => {
@@ -66,76 +69,79 @@ export default function Dashboard() {
   const hasPets = (data?.pets.length ?? 0) > 0;
 
   return (
-    <RequireAuth onUnauthenticated={() => router.replace("/login")}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.title}>Dashboard</Text>
-        {user && <Text style={styles.email}>{user.email}</Text>}
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.title}>{t("nav.dashboard")}</Text>
+      {user && <Text style={styles.email}>{user.email}</Text>}
 
-        {isLoading && (
-          <ActivityIndicator size="large" color="#4f46e5" style={styles.loader} />
+      <View style={styles.petSelectorSection}>
+        <Text style={styles.petSelectorLabel}>{t("nav.selectPet")}</Text>
+        <PetSelector
+          pets={pets}
+          selectedPetId={selectedPetId}
+          onSelect={setSelectedPetId}
+          emptyLabel={t("dashboard.emptyTitle")}
+        />
+        {selectedPet && (
+          <Text style={styles.activePetHint}>{selectedPet.name}</Text>
         )}
+      </View>
 
-        {!isLoading && hasPets && (
-          <View style={styles.petsSection}>
-            <Text style={styles.sectionTitle}>{t("dashboard.yourPets")}</Text>
-            {data!.pets.map((pet) => (
-              <PetCard
-                key={pet.id}
-                pet={pet}
-                typeLabel={t(`petType.${pet.type}`)}
-                ageLabel={formatPetAge(pet.birthdate, locale)}
-                avatarUrl={resolveUploadUrl(pet.avatarUrl, apiBaseUrl)}
-              />
-            ))}
-            <Pressable
-              style={styles.secondaryButton}
-              onPress={() => router.push("/pets/new")}
-            >
-              <Text style={styles.secondaryButtonText}>
-                {t("dashboard.addAnotherPet")}
-              </Text>
-            </Pressable>
-          </View>
-        )}
+      {isLoading && (
+        <ActivityIndicator size="large" color="#4f46e5" style={styles.loader} />
+      )}
 
-        {!isLoading && !hasPets && !errorMessage && (
-          <View style={styles.emptyCard}>
-            <Text style={styles.emptyTitle}>{t("dashboard.emptyTitle")}</Text>
-            <Text style={styles.emptySubtitle}>
-              {t("dashboard.emptySubtitle")}
+      {!isLoading && hasPets && (
+        <View style={styles.petsSection}>
+          <Text style={styles.sectionTitle}>{t("dashboard.yourPets")}</Text>
+          {data!.pets.map((pet) => (
+            <PetCard
+              key={pet.id}
+              pet={pet}
+              typeLabel={t(`petType.${pet.type}`)}
+              ageLabel={formatPetAge(pet.birthdate, locale)}
+              avatarUrl={resolveUploadUrl(pet.avatarUrl, apiBaseUrl)}
+            />
+          ))}
+          <Pressable
+            style={styles.secondaryButton}
+            onPress={() => router.push("/pets/new")}
+          >
+            <Text style={styles.secondaryButtonText}>
+              {t("dashboard.addAnotherPet")}
             </Text>
-            <Pressable
-              style={styles.addButton}
-              onPress={() => router.push("/pets/new")}
-            >
-              <Text style={styles.addButtonText}>{t("dashboard.addPet")}</Text>
-            </Pressable>
-          </View>
-        )}
+          </Pressable>
+        </View>
+      )}
 
-        {errorMessage ? (
-          <Text style={styles.errorMessage}>{errorMessage}</Text>
-        ) : null}
+      {!isLoading && !hasPets && !errorMessage && (
+        <View style={styles.emptyCard}>
+          <Text style={styles.emptyTitle}>{t("dashboard.emptyTitle")}</Text>
+          <Text style={styles.emptySubtitle}>
+            {t("dashboard.emptySubtitle")}
+          </Text>
+          <Pressable
+            style={styles.addButton}
+            onPress={() => router.push("/pets/new")}
+          >
+            <Text style={styles.addButtonText}>{t("dashboard.addPet")}</Text>
+          </Pressable>
+        </View>
+      )}
 
-        <Pressable
-          onPress={() => {
-            logout().then(() => router.replace("/login"));
-          }}
-        >
-          <Text style={styles.logout}>Log out</Text>
-        </Pressable>
-      </ScrollView>
-    </RequireAuth>
+      {errorMessage ? (
+        <Text style={styles.errorMessage}>{errorMessage}</Text>
+      ) : null}
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    alignItems: "center",
     gap: 12,
     paddingHorizontal: 24,
-    paddingVertical: 32,
+    paddingTop: 56,
+    paddingBottom: 24,
   },
   title: {
     fontSize: 24,
@@ -145,12 +151,27 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#666",
   },
+  petSelectorSection: {
+    gap: 8,
+    marginTop: 4,
+  },
+  petSelectorLabel: {
+    fontSize: 12,
+    fontWeight: "600",
+    color: "#6b7280",
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
+  },
+  activePetHint: {
+    fontSize: 13,
+    color: "#4f46e5",
+    fontWeight: "500",
+  },
   loader: {
     marginVertical: 24,
   },
   petsSection: {
     width: "100%",
-    maxWidth: 360,
     gap: 12,
   },
   sectionTitle: {
@@ -211,7 +232,6 @@ const styles = StyleSheet.create({
   },
   emptyCard: {
     width: "100%",
-    maxWidth: 360,
     borderWidth: 1,
     borderColor: "#e5e7eb",
     borderRadius: 12,
@@ -247,11 +267,5 @@ const styles = StyleSheet.create({
     color: "red",
     textAlign: "center",
     fontSize: 15,
-  },
-  logout: {
-    fontSize: 16,
-    color: "#2e78b7",
-    textDecorationLine: "underline",
-    marginTop: 12,
   },
 });
