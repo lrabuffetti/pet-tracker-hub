@@ -23,6 +23,9 @@
     "./context/AuthContext": "./src/context/AuthContext.tsx",
     "./context/I18nContext": "./src/i18n/I18nContext.tsx",
     "./components/RequireAuth": "./src/components/RequireAuth.tsx",
+    "./components/PetSelector": "./src/ui/components/pet-selector.tsx",
+    "./context/PetContext": "./src/context/PetContext.tsx",
+    "./navigation/config": "./src/navigation/config.ts",
     "./types/auth": "./src/types/auth.ts",
     "./types/pet": "./src/types/pet.ts"
   },

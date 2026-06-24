@@ -31,4 +31,11 @@ export const es: Record<TranslationKey, string> = {
   "dashboard.emptyTitle": "Todavía no tenés mascotas",
   "dashboard.emptySubtitle":
     "Agregá tu primera mascota para empezar a llevar su historial.",
+  "nav.dashboard": "Dashboard",
+  "nav.map": "Mapa",
+  "nav.medical": "Historial médico",
+  "nav.settings": "Configuración",
+  "nav.logout": "Cerrar sesión",
+  "nav.selectPet": "Mascota activa",
+  "nav.comingSoon": "Próximamente",
 };

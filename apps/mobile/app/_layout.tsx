@@ -53,13 +53,15 @@ function RootLayoutNav() {
   return (
     <I18nProvider>
       <AuthProvider tokenStorage={mobileTokenStorage} apiBaseUrl={getApiUrl()}>
-        <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+        <ThemeProvider
+          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+        >
           <Stack screenOptions={{ headerShown: false }}>
             <Stack.Screen name="index" />
             <Stack.Screen name="login" />
             <Stack.Screen name="signup" />
             <Stack.Screen name="verification" />
-            <Stack.Screen name="dashboard" />
+            <Stack.Screen name="(tabs)" />
             <Stack.Screen name="pets/new/index" />
           </Stack>
         </ThemeProvider>
