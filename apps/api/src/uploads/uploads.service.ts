@@ -24,6 +24,22 @@ export type PresignResult = {
 export class UploadsService {
   private readonly driver = process.env.STORAGE_DRIVER ?? 'local';
 
+  private normalizeBaseUrl(url: string): string {
+    const trimmed = url.replace(/\/$/, '');
+
+    if (/^https?:\/\//i.test(trimmed)) {
+      return trimmed;
+    }
+
+    return `https://${trimmed}`;
+  }
+
+  private getApiBaseUrl(): string {
+    return this.normalizeBaseUrl(
+      process.env.API_BASE_URL ?? 'http://localhost:3000',
+    );
+  }
+
   async presign(dto: PresignUploadDto): Promise<PresignResult> {
     const key = this.buildObjectKey(dto.purpose, dto.fileName);
 
@@ -45,9 +61,7 @@ export class UploadsService {
       return configured;
     }
 
-    const apiBaseUrl = (
-      process.env.API_BASE_URL ?? 'http://localhost:3000'
-    ).replace(/\/$/, '');
+    const apiBaseUrl = this.getApiBaseUrl();
 
     return `${apiBaseUrl}/uploads`;
   }
@@ -67,7 +81,7 @@ export class UploadsService {
     key: string,
     contentType: AllowedContentType,
   ): PresignResult {
-    const apiBaseUrl = process.env.API_BASE_URL ?? 'http://localhost:3000';
+    const apiBaseUrl = this.getApiBaseUrl();
 
     return {
       uploadUrl: `${apiBaseUrl}/uploads/object/${key}`,
