@@ -22,4 +22,4 @@ WORKDIR /app/apps/api
 ENV NODE_ENV=production
 EXPOSE 3000
 
-CMD ["sh", "-c", "pnpm exec prisma migrate deploy && node dist/main.js"]
+CMD ["sh", "-c", "if [ -z \"$DATABASE_URL\" ] && [ -z \"$MYSQL_URL\" ]; then echo 'ERROR: DATABASE_URL is not set. On Railway: api service → Variables → add DATABASE_URL referencing MySQL.MYSQL_URL'; exit 1; fi && export DATABASE_URL=\"${DATABASE_URL:-$MYSQL_URL}\" && echo 'Running database migrations...' && pnpm run start:prod"]

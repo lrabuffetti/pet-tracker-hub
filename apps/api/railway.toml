@@ -1,0 +1,2 @@
+[deploy]
+startCommand = "pnpm run start:prod"
