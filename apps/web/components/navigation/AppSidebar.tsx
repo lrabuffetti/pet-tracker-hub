@@ -16,7 +16,12 @@ const NAV_ICONS: Record<string, string> = {
   settings: '⚙️',
 }
 
-export const AppSidebar = () => {
+type AppSidebarProps = {
+  className?: string
+  onNavigate?: () => void
+}
+
+export const AppSidebar = ({ className = '', onNavigate }: AppSidebarProps) => {
   const pathname = usePathname()
   const router = useRouter()
   const { t } = useTranslation()
@@ -25,13 +30,20 @@ export const AppSidebar = () => {
 
   const handleLogout = async () => {
     await logout()
+    onNavigate?.()
     router.replace('/')
   }
 
   return (
-    <aside className="flex w-64 shrink-0 flex-col border-r border-gray-200 bg-white">
+    <aside
+      className={`flex w-64 shrink-0 flex-col border-r border-gray-200 bg-white ${className}`}
+    >
       <div className="border-b border-gray-200 px-5 py-5">
-        <Link href="/dashboard" className="flex items-center gap-2">
+        <Link
+          href="/dashboard"
+          className="flex items-center gap-2"
+          onClick={onNavigate}
+        >
           <span className="text-2xl" aria-hidden>
             🐾
           </span>
@@ -62,6 +74,7 @@ export const AppSidebar = () => {
               <li key={item.id}>
                 <Link
                   href={item.webHref}
+                  onClick={onNavigate}
                   className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
                     isActive
                       ? 'bg-indigo-50 text-indigo-700'

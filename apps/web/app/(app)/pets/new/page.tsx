@@ -6,7 +6,6 @@ import { useCreatePet } from '@repo/ui/hooks/useCreatePet'
 import type { PetType } from '@repo/ui/types/pet'
 import { useRouter } from 'next/navigation'
 import { useRef } from 'react'
-import Image from 'next/image'
 
 const PET_TYPES: PetType[] = ['DOG', 'CAT', 'OTHER']
 
@@ -164,7 +163,7 @@ export default function AddPetPage() {
       </Button>
 
       {avatarFile && (
-        <Image
+        <img
           src={avatarFile.uri}
           alt={name || t('addPet.avatar')}
           className="mx-auto h-32 w-32 rounded-full object-cover"
