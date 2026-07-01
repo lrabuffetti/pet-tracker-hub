@@ -3,12 +3,18 @@
 import "dotenv/config";
 import { defineConfig } from "prisma/config";
 
+// `prisma generate` runs at install time (no DATABASE_URL yet). Migrations use the real URL at runtime.
+const databaseUrl =
+  process.env.DATABASE_URL ??
+  process.env.MYSQL_URL ??
+  "mysql://placeholder:placeholder@localhost:3306/placeholder";
+
 export default defineConfig({
   schema: "prisma/schema.prisma",
   migrations: {
     path: "prisma/migrations",
   },
   datasource: {
-    url: process.env["DATABASE_URL"],
+    url: databaseUrl,
   },
 });
