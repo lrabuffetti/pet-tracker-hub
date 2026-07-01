@@ -26,8 +26,8 @@ const VerificationPage = () => {
   })
 
   return (
-    <div className="flex h-screen flex-col items-center justify-center">
-      <div className="flex w-[400px] flex-col gap-4 rounded-xl border border-gray-300 p-3">
+    <div className="flex min-h-screen flex-col items-center justify-center px-4 sm:px-6">
+      <div className="flex w-full max-w-[400px] flex-col gap-4 rounded-xl border border-gray-300 p-4">
         <h1 className="mb-6 mt-6 text-center text-2xl font-bold">
           Verification
         </h1>
